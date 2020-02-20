@@ -9,17 +9,17 @@ using Microsoft.Xna.Framework.Graphics;
 namespace MonoGameWindowsStarter
 {
     /// <summary>
-    /// A class representing a platform
+    /// A class representing a brick
     /// </summary>
     public class Brick : IBoundable
     {
         /// <summary>
-        /// The platform's bounds
+        /// The brick's bounds
         /// </summary>
         BoundingRectangle bounds;
 
         /// <summary>
-        /// The platform's sprite
+        /// The brick's sprite
         /// </summary>
         Sprite sprite;
 
@@ -33,7 +33,7 @@ namespace MonoGameWindowsStarter
         public BoundingRectangle Bounds => bounds;
         Color color;
         /// <summary>
-        /// Constructs a new platform
+        /// Constructs a new Brick
         /// </summary>
         /// <param name="bounds">The platform's bounds</param>
         /// <param name="sprite">The platform's sprite</param>
@@ -46,19 +46,14 @@ namespace MonoGameWindowsStarter
             
         }
 
-        public void Destroy()
-        {
-            
-        }
 
         /// <summary>
-        /// Draws the platform
+        /// Draws the brick
         /// </summary>
         /// <param name="spriteBatch">The spriteBatch to render to</param>
         public void Draw(SpriteBatch spriteBatch)
         {
             //spriteBatch.Draw(sprite.texture, bounds, Color.White);
-            VisualDebugging.DrawRectangle(spriteBatch, bounds, Color.Green);
             if (!broken)
             {
                 sprite.Draw(spriteBatch, new Vector2(bounds.X, bounds.Y), color, 0, origin, 4, spriteEffects, 1);

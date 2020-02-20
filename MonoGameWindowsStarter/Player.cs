@@ -19,10 +19,6 @@ namespace MonoGameWindowsStarter
         Right,
         Left
     }
-
-    /// <summary>
-    /// An enumeration of possible player veritcal movement states
-    /// </summary>
     
 
     /// <summary>
@@ -30,32 +26,22 @@ namespace MonoGameWindowsStarter
     /// </summary>
     public class Player
     {
-        // The speed of the walking animation
-        const int FRAME_RATE = 300;
+        const int FRAME_RATE = 250;
 
-
-        // The player sprite frames
         Sprite[] frames;
 
-        // The currently rendered frame
         int currentFrame = 0;
 
-        // The player's animation state
         PlayerAnimState animationState = PlayerAnimState.Idle;
 
-        // The player's speed
         int speed = 10;
 
-        // The origin of the sprite (centered on its feet)
         public Vector2 origin = new Vector2(3, 14);
 
-        // A timer for animations
         TimeSpan animationTimer;
 
-        // The currently applied SpriteEffects
         SpriteEffects spriteEffects = SpriteEffects.None;
 
-        // The color of the sprite
         Color color = Color.White;
 
         bool idleforward;
@@ -84,7 +70,7 @@ namespace MonoGameWindowsStarter
         }
 
         /// <summary>
-        /// Updates the player, applying movement and physics
+        /// Updates the player, applying movement
         /// </summary>
         /// <param name="gameTime">The GameTime object</param>
         public void Update(GameTime gameTime)
@@ -121,16 +107,7 @@ namespace MonoGameWindowsStarter
             {
                 animationState = PlayerAnimState.Idle;
             }
-            //if (Position.X >= game.GraphicsDevice.Viewport.Width)
-            //{
-            //    animationState = PlayerAnimState.Idle;
-            //    Position.X = Position.X - 1;
-            //}
-            //if (Position.X <= 0)
-            //{
-            //    animationState = PlayerAnimState.Idle;
-            //    Position.X = Position.X - 1;
-            //}
+            
 
             // Apply animations
             switch (animationState)
@@ -163,7 +140,7 @@ namespace MonoGameWindowsStarter
                         animationTimer = new TimeSpan(0);
                     }
                     
-                    //currentFrame = (int)Math.Floor(animationTimer.TotalMilliseconds / FRAME_RATE) + 8;
+                    
                     break;
 
                 
@@ -183,19 +160,7 @@ namespace MonoGameWindowsStarter
             }
         }
 
-        public void CheckForPlatformCollision(IEnumerable<IBoundable> platforms)
-        {
-            Debug.WriteLine($"Checking collisions against {platforms.Count()} platforms");
-           
-                //foreach (Brick platform in platforms)
-                //{
-                //    if (Bounds.CollidesWith(platform.Bounds))
-                //    {
-                //        Position.Y = platform.Bounds.Y - 1;
-                //    }
-                //}
-            
-        }
+        
 
         /// <summary>
         /// Render the player sprite.  Should be invoked between 
@@ -204,8 +169,6 @@ namespace MonoGameWindowsStarter
         /// <param name="spriteBatch">The SpriteBatch to use</param>
         public void Draw(SpriteBatch spriteBatch)
         {
-
-            VisualDebugging.DrawRectangle(spriteBatch, Bounds, Color.Red);
             frames[currentFrame].Draw(spriteBatch, Position, color, 0, origin, 4, spriteEffects, 0);
             //spriteBatch.Draw(frames[1].texture, Bounds, Color.White);
 

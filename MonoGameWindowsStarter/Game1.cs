@@ -20,7 +20,7 @@ namespace MonoGameWindowsStarter
         SpriteSheet sheet;
         AxisList world;
         Random random;
-
+        Texture2D balltexture;
     
 
         public Game1()
@@ -50,12 +50,11 @@ namespace MonoGameWindowsStarter
         protected override void LoadContent()
         {
             random = new Random();
-            VisualDebugging.LoadContent(Content);
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
-
+            balltexture = Content.Load<Texture2D>("ball");
             var t = Content.Load<Texture2D>("spritesheet");
             sheet = new SpriteSheet(t, 32, 32);
 
@@ -67,7 +66,9 @@ namespace MonoGameWindowsStarter
             //bricks.Add(new Brick(new BoundingRectangle(168, 12, 84, 32), sheet[9], RandomColor()));
             //bricks.Add(new Brick(new BoundingRectangle(252, 12, 84, 32), sheet[9], RandomColor()));
             PopulateBricks();
-            ball = new Ball(sheet[9], this);
+
+            //HAD to do this because for some reason my spriteSheet wont update with new changes when rebuilt
+            ball = new Ball(new Sprite(new Rectangle(0,0,32,32), balltexture), this);
 
             world = new AxisList();
             foreach (Brick brick in bricks)

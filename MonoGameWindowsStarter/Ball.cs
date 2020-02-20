@@ -10,13 +10,13 @@ using Microsoft.Xna.Framework.Input;
 namespace MonoGameWindowsStarter
 {
     /// <summary>
-    /// A class representing a platform
+    /// A class representing a ball
     /// </summary>
     public class Ball : IBoundable
     {
         Random random;
         /// <summary>
-        /// The platform's bounds
+        /// The ball's bounds
         /// </summary>
         BoundingRectangle bounds;
         Game game;
@@ -26,7 +26,7 @@ namespace MonoGameWindowsStarter
 
 
         /// <summary>
-        /// The platform's sprite
+        /// The ball's sprite
         /// </summary>
         Sprite sprite;
 
@@ -37,12 +37,12 @@ namespace MonoGameWindowsStarter
         public Vector2 Position = new Vector2(236, 360);
         public Vector2 direction = new Vector2(0, 1);
         /// <summary>
-        /// The bounding rectangle of the 
+        /// The bounding rectangle of the ball
         /// </summary>
         public BoundingRectangle Bounds => new BoundingRectangle(Position, 8, 21);
 
         /// <summary>
-        /// Constructs a new platform
+        /// Constructs a new Ball
         /// </summary>
         /// <param name="bounds">The platform's bounds</param>
         /// <param name="sprite">The platform's sprite</param>
@@ -111,7 +111,6 @@ namespace MonoGameWindowsStarter
 
         public void CheckForBrickCollision(IEnumerable<IBoundable> bricks)
         {
-            //Debug.WriteLine($"Checking collisions against {platforms.Count()} platforms");
 
             foreach (Brick brick in bricks)
             {
@@ -140,12 +139,11 @@ namespace MonoGameWindowsStarter
         }
 
         /// <summary>
-        /// Draws the platform
+        /// Draws the Ball
         /// </summary>
         /// <param name="spriteBatch">The spriteBatch to render to</param>
         public void Draw(SpriteBatch spriteBatch)
         {
-            //VisualDebugging.DrawRectangle(spriteBatch, bounds, Color.White);
             //spriteBatch.Draw(sprite.texture, bounds, Color.Green);
             sprite.Draw(spriteBatch, Position, Color.White, 0, origin, 2, spriteEffects, 0);
             //sprite.Draw(spriteBatch, Position, Color.White);
