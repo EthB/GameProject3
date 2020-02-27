@@ -21,13 +21,17 @@ namespace MonoGameWindowsStarter
         AxisList world;
         Random random;
         Texture2D balltexture;
+        public Vector2 offset;
+        SpriteFont font;
+        public bool lost;
+        //Texture2D texture;
     
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            bricks = new List<Brick>();
+            
         }
 
         /// <summary>
@@ -49,13 +53,18 @@ namespace MonoGameWindowsStarter
         /// </summary>
         protected override void LoadContent()
         {
+
+            bricks = new List<Brick>();
+            offset = new Vector2(0, 0);
+            lost = false;
+            font = Content.Load<SpriteFont>("font");
             random = new Random();
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
             balltexture = Content.Load<Texture2D>("ball");
-            var t = Content.Load<Texture2D>("spritesheet");
+            var t = Content.Load<Texture2D>("textures");
             sheet = new SpriteSheet(t, 32, 32);
 
             var playerFrames = from index in Enumerable.Range(0, 9) select sheet[index];
@@ -97,6 +106,12 @@ namespace MonoGameWindowsStarter
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
+            if(lost && Keyboard.GetState().IsKeyDown(Keys.Enter))
+            {
+                LoadContent();
+                
+
+            }
             player.Update(gameTime);
             // TODO: Add your update logic here
             var platformQuery = world.QueryRange(ball.Bounds.Y, ball.Bounds.Y + ball.Bounds.Height);
@@ -106,7 +121,7 @@ namespace MonoGameWindowsStarter
 
             for(int i = 0; i<bricks.Count; i++)
             {
-                if (bricks[i].broken){
+                if (bricks[i].brickState == BrickState.broken){
                     bricks.RemoveAt(i);
                     i--;
                 }
@@ -123,7 +138,12 @@ namespace MonoGameWindowsStarter
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            spriteBatch.Begin();
+
+            offset = new Vector2(200, 400) - player.Position;
+            var t = Matrix.CreateTranslation(0, offset.Y, 0);
+            spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, t);
+
+            //spriteBatch.Begin();
             // TODO: Add your drawing code here
             bricks.ForEach(brick =>
             {
@@ -132,6 +152,12 @@ namespace MonoGameWindowsStarter
             ball.Draw(spriteBatch);
             player.Draw(spriteBatch);
             //spriteBatch.Draw(sheet[11].texture, sheet[11].source, new Rectangle(200, 200, 200, 200), Color.White);
+            spriteBatch.DrawString(font, "Hey you win", new Vector2(325, -600), Color.Black);
+            //spriteBatch.Draw(texture, new Vector2(200, 300), Color.White);
+            if (lost)
+            {
+                spriteBatch.DrawString(font, "you lose, press 'Enter' to start again", new Vector2(player.Position.X + offset.X + 50, player.Position.Y/2 - offset.Y/2), Color.Black);
+            }
             spriteBatch.End();
             base.Draw(gameTime);
         }
@@ -139,7 +165,7 @@ namespace MonoGameWindowsStarter
 
         public void PopulateBricks()
         {
-            for (int j = 10; j < 36 * 4; j += 36)
+            for (int j = -432; j < 36 * 5; j += 36)
             {
                 for (int i = 10; i < GraphicsDevice.Viewport.Width - 84; i += 84)
                 {

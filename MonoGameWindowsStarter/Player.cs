@@ -76,7 +76,7 @@ namespace MonoGameWindowsStarter
         public void Update(GameTime gameTime)
         {
             var keyboard = Keyboard.GetState();
-           
+
             
 
 
@@ -84,7 +84,7 @@ namespace MonoGameWindowsStarter
             if (keyboard.IsKeyDown(Keys.Left))
             {
                 
-                if(Position.X - Bounds.Width/4 > 0)
+                if(Position.X - Bounds.Width/8 > 0)
                 {
                     animationState = PlayerAnimState.Left;
                     Position.X -= speed;
@@ -95,13 +95,32 @@ namespace MonoGameWindowsStarter
             else if(keyboard.IsKeyDown(Keys.Right))
             {
                 
-                if(Position.X + Bounds.Width/4 < game.GraphicsDevice.Viewport.Width)
+                if(Position.X + Bounds.Width < game.GraphicsDevice.Viewport.Width)
                 {
                     animationState = PlayerAnimState.Right;
                     Position.X += speed;
                 }
                 else { animationState = PlayerAnimState.Idle; }
                 
+            }
+            else if (keyboard.IsKeyDown(Keys.Up))
+            {
+                if (Position.Y > -500)
+                {
+                    animationState = PlayerAnimState.Idle;
+                    Position.Y -= speed;
+                }
+                else { animationState = PlayerAnimState.Idle; }
+                
+            }
+            else if (keyboard.IsKeyDown(Keys.Down))
+            {
+                if (Position.Y < game.GraphicsDevice.Viewport.Height-Bounds.Height)
+                {
+                    animationState = PlayerAnimState.Idle;
+                    Position.Y += speed;
+                }
+                else { animationState = PlayerAnimState.Idle; }
             }
             else
             {

@@ -8,6 +8,13 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace MonoGameWindowsStarter
 {
+
+    public enum BrickState
+    {
+        broken,
+        damaged,
+        cool
+    }
     /// <summary>
     /// A class representing a brick
     /// </summary>
@@ -23,9 +30,10 @@ namespace MonoGameWindowsStarter
         /// </summary>
         Sprite sprite;
 
-        public bool broken;
+        //public bool broken;
         Vector2 origin = new Vector2(21/4, 12);
         SpriteEffects spriteEffects;
+        public BrickState brickState;
 
         /// <summary>
         /// The bounding rectangle of the 
@@ -41,7 +49,7 @@ namespace MonoGameWindowsStarter
         {
             this.bounds = bounds;
             this.sprite = sprite;
-            broken = false;
+            brickState = BrickState.cool;
             this.color = color;
             
         }
@@ -53,8 +61,8 @@ namespace MonoGameWindowsStarter
         /// <param name="spriteBatch">The spriteBatch to render to</param>
         public void Draw(SpriteBatch spriteBatch)
         {
-            //spriteBatch.Draw(sprite.texture, bounds, Color.White);
-            if (!broken)
+            //spriteBatch.Draw(sprite.texture, new Vector2(200,200), Color.White);
+            if (brickState == BrickState.cool)
             {
                 sprite.Draw(spriteBatch, new Vector2(bounds.X, bounds.Y), color, 0, origin, 4, spriteEffects, 1);
                 //sprite.Draw(spriteBatch, bounds, Color.White);
